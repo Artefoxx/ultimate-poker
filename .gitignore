@@ -13,3 +13,11 @@ hs_err_pid*
 
 # VS Code
 .vscode/
+# sbt
+target/
+project/target/
+
+# Build tools
+.bloop/
+# Metals-generated sbt files
+metals.sbt
