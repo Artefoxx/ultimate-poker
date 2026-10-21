@@ -4,10 +4,10 @@ import org.scalatest.matchers.should.Matchers
 class CardSpec extends AnyWordSpec with Matchers {
     "A card" should { 
         "have a rank and a suit" in{
-            val card = Card("Ace", "Spades")
+            val card = Card(Rank.Queen, Suit.Spades)
 
-            card.rank shouldBe "Ace"
-            card.suit shouldBe "Spades"
+            card.rank shouldBe Rank.Queen
+            card.suit shouldBe Suit.Spades
         } 
     }
 }

@@ -7,9 +7,9 @@ object Deck{
     
 
 
-    private val ranks = Vector("2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace")
+    private val ranks = Rank.values.toVector
 
-    private val suits = Vector("Hearts", "Diamonds", "Spades", "Clubs")
+    private val suits = Suit.values.toVector
 
     def shuffled: Vector[Card] = 
         scala.util.Random.shuffle(Deck.full)
