@@ -1,3 +1,2 @@
-enum Suit {
-    case Hearts, Diamond, Spades, Clubs
-}
+enum Suit:
+  case Hearts, Diamond, Spades, Clubs

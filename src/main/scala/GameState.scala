@@ -1,4 +1,9 @@
-case class GameState(playerCards: Vector[Card], dealerCards: Vector[Card], communityCards: Vector[Card], phase: GamePhase)
+case class GameState(
+    playerCards: Vector[Card],
+    dealerCards: Vector[Card],
+    communityCards: Vector[Card],
+    phase: GamePhase
+)
 
 // val game = GameState(
 //   Vector.empty[Card],
