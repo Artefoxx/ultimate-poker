@@ -1,3 +1,5 @@
+package model
+
 object Deck:
   def full: Vector[Card] =
     for

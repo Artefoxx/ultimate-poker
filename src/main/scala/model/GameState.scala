@@ -1,3 +1,5 @@
+package model
+
 case class GameState(
     playerCards: Vector[Card],
     dealerCards: Vector[Card],

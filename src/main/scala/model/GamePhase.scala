@@ -1,3 +1,5 @@
+package model
+
 enum GamePhase:
   case PreFlop, Flop, River, Showdown
 
