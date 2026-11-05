@@ -1,0 +1,35 @@
+
+name: Scala CI and SonarQube
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: Test and SonarQube Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: sbt
+
+      - name: Set up sbt
+        uses: sbt/setup-sbt@v1
+
+      - name: Run tests with coverage
+        run: sbt 'clean; coverage; test; coverageReport'
+
+      - name: SonarQube analysis
+        uses: SonarSource/sonarqube-scan-action@v8.0.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
