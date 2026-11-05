@@ -1,3 +1,6 @@
+import model.*
+import view.TextUI
+import controller.GameController
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -9,7 +12,9 @@ class TextUISpec extends AnyWordSpec with Matchers:
 
     try
       Console.withOut(printer) {
-        TextUI.showGame(game)
+        val controller = new GameController()
+        val textUI = new TextUI(controller)
+        textUI.showGame(game)
       }
       printer.flush()
       stream.toString("UTF-8")

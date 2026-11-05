@@ -1,3 +1,5 @@
+package model
+
 object Game:
 
   def newGame(): GameState =

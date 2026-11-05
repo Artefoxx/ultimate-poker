@@ -1,8 +1,12 @@
-object TextUI:
+package view
+
+import model.*
+import controller.Observer
+import controller.GameController
+class TextUI(controller: GameController) extends Observer:
   def showGame(game: GameState): Unit =
-    println("Ultimate Poker")
+    println("========= Ultimate Poker =========")
     println(s"Phase: ${game.phase}")
-    println(s"Player cards: ${game.playerCards.size}")
     println("Player cards:")
     game.playerCards.foreach(card => println(s"${card.rank} of ${card.suit}"))
 
@@ -20,3 +24,6 @@ object TextUI:
       println("Dealer cards:")
       game.dealerCards.foreach(card => println(s"${card.rank} of ${card.suit}"))
     else println("Dealer cards: Hidden")
+
+  override def update(): Unit =
+    showGame(controller.getGameState)
