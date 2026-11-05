@@ -31,36 +31,36 @@ class GameControllerSpec extends AnyWordSpec with Matchers:
       controller.getGameState.phase shouldBe GamePhase.Showdown
     }
     "notify observers after phase change" in {
-        val controller = new GameController()
+      val controller = new GameController()
 
-        var updateCount = 0
+      var updateCount = 0
 
-        val observer = new Observer:
-            override def update(): Unit =
-                updateCount += 1
+      val observer = new Observer:
+        override def update(): Unit =
+          updateCount += 1
 
-        controller.add(observer)
-        controller.next()
+      controller.add(observer)
+      controller.next()
 
-        updateCount shouldBe 1
+      updateCount shouldBe 1
     }
     "stop notifying removed observers" in {
-        val controller = new GameController()
+      val controller = new GameController()
 
-        var updateCount = 0
-        
-        val observer = new Observer:
-            override def update(): Unit =
-                updateCount += 1
+      var updateCount = 0
 
-        controller.add(observer)
-        controller.next()
+      val observer = new Observer:
+        override def update(): Unit =
+          updateCount += 1
 
-        controller.remove(observer)
-        controller.next()
+      controller.add(observer)
+      controller.next()
 
-        updateCount shouldBe 1
-            
+      controller.remove(observer)
+      controller.next()
+
+      updateCount shouldBe 1
+
     }
-        
+
   }

@@ -1,29 +1,31 @@
-import model.*
 import controller.GameController
 import view.TextUI
-//> using test.dep org.scalatest::scalatest:3.2.19
-//> using testFramework org.scalatest.tools.Framework
+import scala.annotation.tailrec
 
 @main def runPoker(): Unit =
   val controller = new GameController()
-  val textUI = new TextUI(controller)
+  val textUI     = new TextUI(controller)
 
   controller.add(textUI)
   textUI.update()
 
-  var running = true
-
-  while running do
-
+  @tailrec
+  def gameLoop(): Unit =
     println("Enter a command (next / quit):")
-    val command = scala.io.StdIn.readLine()
 
-    if command == "next" then controller.next()
-    else if command == "quit" then running = false
-    else println("Unknown command")
+    val command = Option(scala.io.StdIn.readLine())
+      .map(_.trim.toLowerCase)
 
-  // println("Enter a command (next / quit):")
-  // val command = scala.io.StdIn.readLine()
+    command match
+      case Some("next") =>
+        controller.next()
+        gameLoop()
 
-  // if command == "next" then
-  //     TextUI.showGame(nextPhase(game))
+      case Some("quit") | None =>
+        println("Thanks for playing Ultimate Poker!")
+
+      case _ =>
+        println("Unknown command")
+        gameLoop()
+
+  gameLoop()

@@ -1,5 +1,4 @@
 package controller
 
-trait Observer {
-    def update(): Unit
-}
+trait Observer:
+  def update(): Unit
