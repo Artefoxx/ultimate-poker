@@ -1,7 +1,7 @@
 package view
 
+import observer.Observer
 import model.*
-import controller.Observer
 import controller.GameController
 class TextUI(controller: GameController) extends Observer:
   def showGame(game: GameState): Unit =

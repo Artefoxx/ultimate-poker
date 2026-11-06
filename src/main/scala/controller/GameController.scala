@@ -1,4 +1,5 @@
 package controller
+import observer.{Observer, Observable}
 
 import model.*
 

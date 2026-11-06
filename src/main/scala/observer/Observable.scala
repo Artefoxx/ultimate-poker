@@ -1,4 +1,4 @@
-package controller
+package observer
 
 trait Observable:
   def add(observer: Observer): Unit

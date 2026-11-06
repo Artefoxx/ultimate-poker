@@ -1,4 +1,4 @@
-package controller
+package observer
 
 trait Observer:
   def update(): Unit
