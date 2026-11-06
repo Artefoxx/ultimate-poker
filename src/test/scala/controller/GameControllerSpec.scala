@@ -1,6 +1,8 @@
+package controller
+
 import model.*
+import observer.Observer
 import controller.GameController
-import controller.Observer
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
 

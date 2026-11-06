@@ -1,5 +1,6 @@
+package view
 import model.*
-import view.TextUI
+import controller.*
 import controller.GameController
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
