@@ -29,6 +29,13 @@ jobs:
       - name: Run tests with coverage
         run: sbt 'clean; coverage; test; coverageReport'
 
+      
+      - name: Upload coverage to Coveralls
+        run: sbt coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+
       - name: SonarQube analysis
         uses: SonarSource/sonarqube-scan-action@v8.0.0
         env:
