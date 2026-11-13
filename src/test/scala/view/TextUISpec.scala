@@ -14,7 +14,7 @@ class TextUISpec extends AnyWordSpec with Matchers:
     try
       Console.withOut(printer) {
         val controller = new GameController()
-        val textUI = new TextUI(controller)
+        val textUI     = new TextUI(controller)
         textUI.showGame(game)
       }
       printer.flush()
@@ -22,10 +22,18 @@ class TextUISpec extends AnyWordSpec with Matchers:
     finally printer.close()
 
   "TextUI" should {
-    "hide community and dealer cards during PreFlop" in {
+    "show player cards and hide community and dealer cards during PreFlop" in {
       val game   = Game.newGame()
       val output = captureOutput(game)
+
+      output should include("========= Ultimate Poker =========")
       output should include("Phase: PreFlop")
+      output should include("Player cards:")
+
+      game.playerCards.foreach(card =>
+        output should include(s"${card.rank} of ${card.suit}")
+      )
+
       output should include("Community cards:\nDealer cards: Hidden")
     }
     "show 3 community cards and hide dealer cards during Flop" in {
