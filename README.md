@@ -1,4 +1,6 @@
 # Ultimate Poker
+[![Scala CI](https://github.com/Artefoxx/ultimate-poker/actions/workflows/build.yml/badge.svg)](https://github.com/Artefoxx/ultimate-poker/actions/workflows/build.yml)
+[![Coverage Status](https://coveralls.io/repos/github/Artefoxx/ultimate-poker/badge.svg?branch=main)](https://coveralls.io/github/Artefoxx/ultimate-poker?branch=main)
 
 A university software engineering project implementing the foundations of **Texas Hold'em poker** in Scala 3. The project focuses on game logic, modular design, and automated testing.
 
