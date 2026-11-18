@@ -1,6 +1,8 @@
 package controller
 import observer.{Observer, Observable}
-
+import command.GameCommand
+import validation.BetValidationChain
+import state.PhaseState
 import model.*
 
 class GameController extends Observable:
@@ -23,3 +25,20 @@ class GameController extends Observable:
 
   override def notifyObservers(): Unit =
     observers.foreach(o => o.update())
+  
+  def executeComand(command: GameCommand): Either[String, Unit] =
+    BetValidationChain.validator.validate(game, command) match
+      case Left(error) =>
+        Left(error)
+      
+      case Right(_) => 
+        val currentState = PhaseState.from(game.phase)
+
+        val updatedGame = command.execute(game)
+
+        game = currentState.afterAction(updatedGame, command)
+
+        notifyObservers()
+        Right(())
+
+    
