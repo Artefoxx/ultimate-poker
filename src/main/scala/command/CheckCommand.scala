@@ -1,8 +1,8 @@
 package command
 
-import model.* 
+import model.*
 
 case object CheckCommand extends GameCommand:
 
-    override def execute(game: GameState): GameState =
-        nextPhase(game)
+  override def execute(game: GameState): GameState =
+    game

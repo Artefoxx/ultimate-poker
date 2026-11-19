@@ -8,12 +8,7 @@ import model.*
 class GameController extends Observable:
   private var game: GameState = Game.newGame()
 
-  def getGameState: GameState =
-    game
-
-  def next(): Unit =
-    game = nextPhase(game)
-    notifyObservers()
+  def getGameState: GameState = game
 
   private var observers: Vector[Observer] = Vector.empty
 
@@ -25,20 +20,17 @@ class GameController extends Observable:
 
   override def notifyObservers(): Unit =
     observers.foreach(o => o.update())
-  
-  def executeComand(command: GameCommand): Either[String, Unit] =
+
+  def executeCommand(command: GameCommand): Either[String, Unit] =
     BetValidationChain.validator.validate(game, command) match
       case Left(error) =>
         Left(error)
-      
-      case Right(_) => 
-        val currentState = PhaseState.from(game.phase)
 
-        val updatedGame = command.execute(game)
+      case Right(_) =>
+        val currentState = PhaseState.from(game.phase)
+        val updatedGame  = command.execute(game)
 
         game = currentState.afterAction(updatedGame, command)
 
         notifyObservers()
         Right(())
-
-    

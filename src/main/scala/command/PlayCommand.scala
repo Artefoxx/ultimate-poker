@@ -2,15 +2,15 @@ package command
 import model.GameState
 
 case class PlayCommand(multiplier: Int) extends GameCommand:
-    override def execute(game: GameState): GameState =
-        
-        val betting = game.betting 
+  override def execute(game: GameState): GameState =
 
-        val amount = betting.ante * multiplier
+    val betting = game.betting
 
-        val updatedBetting = betting.copy(
-            playerBalance = betting.playerBalance - amount,
-            playBet = amount 
-        )
+    val amount = betting.ante * multiplier
 
-        game.copy(betting = updatedBetting)
+    val updatedBetting = betting.copy(
+      playerBalance = betting.playerBalance - amount,
+      playBet = amount
+    )
+
+    game.copy(betting = updatedBetting)

@@ -9,11 +9,11 @@ case class BettingState(
 )
 
 object BettingState:
-    def initial: BettingState = 
-        BettingState(
-            playerBalance = 980,
-            ante = 10,
-            blind = 10,
-            playBet= 0,
-            folded = false
-        )
+  def initial: BettingState =
+    BettingState(
+      playerBalance = 980,
+      ante = 10,
+      blind = 10,
+      playBet = 0,
+      folded = false
+    )
