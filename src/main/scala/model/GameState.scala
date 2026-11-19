@@ -4,7 +4,8 @@ case class GameState(
     playerCards: Vector[Card],
     dealerCards: Vector[Card],
     communityCards: Vector[Card],
-    phase: GamePhase
+    phase: GamePhase,
+    betting: BettingState = BettingState.initial
 )
 
 // val game = GameState(
