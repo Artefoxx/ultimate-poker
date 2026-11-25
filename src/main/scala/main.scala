@@ -1,18 +1,26 @@
 import controller.GameController
 import view.TextUI
-import command.*
+import command.CommandParser
 import scala.annotation.tailrec
 
 @main def runPoker(): Unit =
   val controller = new GameController()
-  val textUI     = new TextUI(controller)
+  val textUI = new TextUI(controller)
 
   controller.add(textUI)
   textUI.update()
 
+  def printResult(result: Either[String, Unit]): Unit =
+    result match
+      case Left(error) =>
+        println(s"Invalid action: $error")
+
+      case Right(_) =>
+        println("Action completed successfully.")
+
   @tailrec
   def gameLoop(): Unit =
-    println("Enter a command (check / play 1-4 / fold / quit):")
+    println("Enter a command (check / play 1-4 / fold / undo / quit):")
 
     val input = Option(scala.io.StdIn.readLine())
       .map(_.trim.toLowerCase)
@@ -21,24 +29,14 @@ import scala.annotation.tailrec
       case Some("quit") | None =>
         println("Thanks for playing Ultimate Poker!")
 
+      case Some("undo") =>
+        printResult(controller.undo())
+        gameLoop()
+
       case Some(value) =>
-        val command: Option[GameCommand] = value match
-          case "check"  => Some(CheckCommand)
-          case "fold"   => Some(FoldCommand)
-          case "play 1" => Some(PlayCommand(1))
-          case "play 2" => Some(PlayCommand(2))
-          case "play 3" => Some(PlayCommand(3))
-          case "play 4" => Some(PlayCommand(4))
-          case _        => None
-
-        command match
+        CommandParser.parse(value) match
           case Some(gameCommand) =>
-            controller.executeCommand(gameCommand) match
-              case Left(error) =>
-                println(s"Invalid action: $error")
-
-              case Right(_) =>
-                println("Action completed successfully.")
+            printResult(controller.executeCommand(gameCommand))
 
           case None =>
             println("Unknown command")
