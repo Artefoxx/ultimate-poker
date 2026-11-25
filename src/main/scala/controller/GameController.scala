@@ -3,10 +3,12 @@ import observer.{Observer, Observable}
 import command.GameCommand
 import validation.BetValidationChain
 import state.PhaseState
+import factory.{GameFactory, StandardGameFactory}
 import model.*
 
-class GameController extends Observable:
-  private var game: GameState = Game.newGame()
+class GameController(gameFactory: GameFactory = new StandardGameFactory()) extends Observable:
+
+  private var game: GameState = gameFactory.newGame()
 
   def getGameState: GameState = game
 
