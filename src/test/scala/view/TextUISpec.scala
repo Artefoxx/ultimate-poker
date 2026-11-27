@@ -173,5 +173,49 @@ class TextUISpec extends AnyWordSpec with Matchers:
       output should include("Balance: 980")
       output should include("Play Bet: 0")
     }
+    "not evaluate the player hand during PreFlop" in {
+      val game = Game.newGame()
+      val output = captureOutput(game)
+
+      output should include("Player hand: Not available yet")
+    }
+    "evaluate the player hand using only visible cards" in {
+      val game = GameState(
+        playerCards = Vector(
+          Card(Rank.Ace, Suit.Spades),
+          Card(Rank.Ace, Suit.Hearts)
+        ),
+        dealerCards = Vector(
+          Card(Rank.Queen, Suit.Clubs),
+          Card(Rank.Jack, Suit.Hearts)
+        ),
+        communityCards = Vector(
+          Card(Rank.King, Suit.Clubs),
+          Card(Rank.Nine, Suit.Diamond),
+          Card(Rank.Three, Suit.Spades),
+          Card(Rank.King, Suit.Hearts),
+          Card(Rank.Ace, Suit.Diamond)
+        ),
+        phase = GamePhase.PreFlop
+      )
+
+      val flopOutput = captureOutput(
+        game.copy(phase = GamePhase.Flop)
+      )
+
+      flopOutput should include("Player hand: OnePair")
+
+      val riverOutput = captureOutput(
+        game.copy(phase = GamePhase.River)
+      )
+
+      riverOutput should include("Player hand: FullHouse")
+
+      val showdownOutput = captureOutput(
+        game.copy(phase = GamePhase.Showdown)
+      )
+
+      showdownOutput should include("Player hand: FullHouse")
+    }
 
   }

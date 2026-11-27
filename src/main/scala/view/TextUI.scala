@@ -1,10 +1,16 @@
 package view
 
+import strategy.{HandAnalysis, FiveCardStrategy, SevenCardStrategy}
 import observer.Observer
 import model.*
 import controller.GameController
 
 class TextUI(controller: GameController) extends Observer:
+
+  private val handAnalysis = new HandAnalysis(
+    FiveCardStrategy,
+    SevenCardStrategy
+  )
 
   def showGame(game: GameState): Unit =
     println("\n========= Ultimate Poker =========")
@@ -26,6 +32,16 @@ class TextUI(controller: GameController) extends Observer:
       case GamePhase.River    => 5
       case GamePhase.Showdown => 5
 
+    val cardsForEvaluation = 
+      game.playerCards ++ game.communityCards.take(visibleCards)
+
+    handAnalysis.evaluate(cardsForEvaluation) match
+      case Some(hand) =>
+        println(s"Player hand: ${hand.rank}") 
+      
+      case None =>
+        println("Player hand: Not available yet")
+    
     println("\n--- Community cards ---")
     game.communityCards
       .take(visibleCards)
