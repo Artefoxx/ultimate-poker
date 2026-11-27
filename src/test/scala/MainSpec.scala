@@ -94,6 +94,22 @@ class MainSpec extends AnyWordSpec with Matchers:
       output should include("Play bet has already been placed")
     }
 
+    "restore the displayed game after undoing a play bet" in {
+      val output = run("PLAY 4\nundo\nundo\nquit\n")
+
+      output should include("Phase: Showdown")
+      output should include("Balance: 940")
+      output should include("Play Bet: 40")
+
+      val restoredPhase = output.lastIndexOf("Phase: PreFlop")
+      restoredPhase should be > output.indexOf("Phase: Showdown")
+
+      val restored = output.substring(restoredPhase)
+      restored should include("Balance: 980")
+      restored should include("Play Bet: 0")
+      restored should include("Invalid action: Nothing to undo")
+    }
+
     "handle unknown commands" in {
       val output = run("invalid\nquit\n")
 
@@ -116,6 +132,21 @@ class MainSpec extends AnyWordSpec with Matchers:
       val output = run("")
 
       output should include("Thanks for playing Ultimate Poker!")
+    }
+
+    "reject a nonnumeric play multiplier" in {
+      val output = run("play abc\nquit\n")
+
+      output should include("Unknown command")
+      output should not include "Phase: Showdown"
+      output should include("Thanks for playing Ultimate Poker!")
+    }
+
+    "reject a play multiplier without the command name" in {
+      val output = run("4\nquit\n")
+
+      output should include("Unknown command")
+      output should not include "Phase: Showdown"
     }
 
   }

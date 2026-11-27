@@ -114,4 +114,23 @@ class GameControllerSpec extends AnyWordSpec with Matchers:
       updateCount shouldBe 1
     }
 
+    "undo successful actions in reverse order and skip rejected actions" in {
+      val controller = new GameController()
+      val initial    = controller.getGameState
+
+      controller.executeCommand(CheckCommand) shouldBe Right(())
+      val flop = controller.getGameState
+      controller.executeCommand(PlayCommand(2)) shouldBe Right(())
+      controller.executeCommand(CheckCommand).isLeft shouldBe true
+
+      controller.undo() shouldBe Right(())
+      controller.getGameState shouldBe flop
+
+      controller.undo() shouldBe Right(())
+      controller.getGameState shouldBe initial
+
+      controller.undo() shouldBe Left("Nothing to undo")
+      controller.getGameState shouldBe initial
+    }
+
   }
